@@ -131,6 +131,47 @@ public class LogicManagerTest {
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
 
+        //For Person Storage and Manager
+        seedu.address.person.model.Model personModel = new seedu.address.person.model.ModelManager();
+        seedu.address.person.storage.StorageManager personManager=
+                new seedu.address.person.storage.StorageManager(addressBookStorage, userPrefsStorage);
+
+        //For Transaction Storage and Manager
+        seedu.address.transaction.storage.StorageManager transactionManager =
+                new seedu.address.transaction.storage.StorageManager(FILE_PATH_TRANSACTION, personModel);
+        seedu.address.transaction.model.Model transactionModel =
+                new seedu.address.transaction.model.ModelManager(transactionManager.readTransactionList());
+
+        //For Reimbursement Storage and Manager
+        seedu.address.reimbursement.storage.StorageManager reimbursementManager =
+                new seedu.address.reimbursement.storage.StorageManager(
+                        FILE_PATH_REIMBURSEMENT, transactionModel);
+        seedu.address.reimbursement.model.Model reimbursementModel=
+                new seedu.address.reimbursement.model.ModelManager(reimbursementManager.readReimbursementList());
+
+        //For Cashier Storage and Manager
+        seedu.address.cashier.storage.StorageManager cashierManager =
+                new seedu.address.cashier.storage.StorageManager(FILE_PATH_INVENTORY,
+                        FILE_PATH_TRANSACTION, personModel);
+        seedu.address.cashier.model.ModelManager cashierModel =
+                new seedu.address.cashier.model.ModelManager(cashierManager.getTransactionList());
+
+        //For Inventory Storage and Manager
+        seedu.address.inventory.model.Model inventoryModel =
+                new seedu.address.inventory.model.ModelManager(inventoryList);
+        seedu.address.inventory.storage.StorageManager inventoryManager =
+                new seedu.address.inventory.storage.StorageManager(FILE_PATH_INVENTORY);
+
+        //All related logics
+        seedu.address.transaction.logic.Logic logic = new seedu.address.transaction.logic.LogicManager(transactionModel, transactionManager, personModel, personManager,
+                reimbursementModel, reimbursementManager);
+        seedu.address.reimbursement.logic.Logic reimbursementLogic =
+                new seedu.address.reimbursement.logic.LogicManager(reimbursementModel, reimbursementManager,
+                        transactionModel, transactionManager, personModel);
+        seedu.address.cashier.logic.Logic cashierLogic =
+                new seedu.address.cashier.logic.LogicManager(cashierModel, cashierManager, personModel,
+                        personManager, reimbursementModel, reimbursementManager, transactionModel,
+                        transactionManager, inventoryModel, inventoryManager);
         logic = new LogicManager(model, storage);
 
         // Execute add command
