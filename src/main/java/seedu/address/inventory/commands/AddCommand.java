@@ -29,6 +29,6 @@ public class AddCommand extends Command {
         InventoryMessages inventoryMessages = new InventoryMessages();
         model.addItem(item);
         logger.info(item.toString());
-        return new CommandResult(String.format(MESSAGE_ADDED_ITEM, item));
+        return new CommandResult(String.format(inventoryMessages.MESSAGE_ADDED_ITEM, item));
     }
 }

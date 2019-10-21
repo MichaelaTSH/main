@@ -16,13 +16,24 @@ import seedu.address.inventory.ui.InventoryMessages;
  */
 public class InventoryList {
     private static ArrayList<Item> iList;
+    private static Integer count;
 
     public InventoryList() {
         this.iList = new ArrayList<Item>();
+        this.count = 0;
     }
 
     public InventoryList(ArrayList<Item> list) {
         this.iList = list;
+        this.count = 0;
+    }
+
+    public static Integer getCount() {
+        return count;
+    }
+
+    public static void increaseCount() {
+        count += 1;
     }
 
     public static Item getItemByIndex(int index) throws NoSuchIndexException {
@@ -97,8 +108,12 @@ public class InventoryList {
         return iList.get(i);
     }
 
+    public void sortReset() {
+        Collections.sort(iList, new ResetSort());
+    }
+
     /**
-     * Comparator to compare by the name in transaction.
+     * Comparator to compare by the name in item.
      */
     class SortByDescription implements Comparator<Item> {
         // Used for sorting in ascending order
@@ -109,7 +124,7 @@ public class InventoryList {
     }
 
     /**
-     * Comparator to compare by amount in transaction.
+     * Comparator to compare by quantity in item.
      */
     class SortByQuantity implements Comparator<Item> {
         // Used for sorting in descending order
@@ -126,13 +141,31 @@ public class InventoryList {
     }
 
     /**
-     * Comparator to compare by date in transaction.
+     * Comparator to compare by category in item.
      */
     class SortByCategory implements Comparator<Item> {
         // Used for sorting in ascending order
         @Override
         public int compare(Item a, Item b) {
             return a.getCategory().compareTo(b.getCategory());
+        }
+    }
+
+    /**
+     * Comparator to compare by trueId in item.
+     */
+    class ResetSort implements Comparator<Item> {
+        // Used for sorting in descending order.
+        // Returns the chronological order of items.
+        @Override
+        public int compare(Item a, Item b) {
+            if (a.getTrueId() < b.getTrueId()) {
+                return -1;
+            } else if (a.getTrueId() == b.getTrueId()) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
     }
 }

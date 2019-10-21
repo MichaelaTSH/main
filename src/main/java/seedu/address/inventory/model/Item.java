@@ -1,5 +1,7 @@
 package seedu.address.inventory.model;
 
+import seedu.address.inventory.util.InventoryList;
+
 import java.text.DecimalFormat;
 import java.util.Objects;
 
@@ -18,6 +20,7 @@ public class Item {
     private Double price;
     private Double subtotal;
     private String id;
+    private Integer trueId;
 
 
     /**
@@ -32,6 +35,7 @@ public class Item {
         this.price = Double.parseDouble(DECIMAL_FORMAT.format(price));
         this.subtotal = Double.parseDouble(DECIMAL_FORMAT.format(quantity * price));
         this.id = "" + id;
+        this.trueId = id;
     }
 
     /**
@@ -46,6 +50,11 @@ public class Item {
         this.price = 0.0;
         this.subtotal = 0.0;
         this.id = "" + i;
+        this.trueId = i;
+    }
+
+    public Integer getTrueId() {
+        return trueId;
     }
 
     public String getDescription() {
@@ -84,7 +93,7 @@ public class Item {
         this.quantity = quantity;
         updateSubtotal();
     }
-    
+
     /**
      * Checks if the item is available for sales.
      *
