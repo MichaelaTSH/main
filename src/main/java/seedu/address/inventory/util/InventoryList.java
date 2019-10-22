@@ -155,8 +155,6 @@ public class InventoryList {
      * Comparator to compare by trueId in item.
      */
     class ResetSort implements Comparator<Item> {
-        // Used for sorting in descending order.
-        // Returns the chronological order of items.
         @Override
         public int compare(Item a, Item b) {
             if (a.getTrueId() < b.getTrueId()) {

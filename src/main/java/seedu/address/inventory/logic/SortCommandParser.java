@@ -1,6 +1,10 @@
 package seedu.address.inventory.logic;
 
-import seedu.address.inventory.commands.*;
+import seedu.address.inventory.commands.SortCategoryCommand;
+import seedu.address.inventory.commands.SortCommand;
+import seedu.address.inventory.commands.SortDescriptionCommand;
+import seedu.address.inventory.commands.SortQuantityCommand;
+import seedu.address.inventory.commands.SortResetCommand;
 import seedu.address.inventory.logic.exception.NoSuchSortException;
 import seedu.address.inventory.ui.InventoryMessages;
 

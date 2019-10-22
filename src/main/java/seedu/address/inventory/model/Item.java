@@ -1,7 +1,5 @@
 package seedu.address.inventory.model;
 
-import seedu.address.inventory.util.InventoryList;
-
 import java.text.DecimalFormat;
 import java.util.Objects;
 
