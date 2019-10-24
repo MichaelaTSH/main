@@ -71,8 +71,4 @@ public class AddCommandParser {
     private static boolean arePrefixesPresent(ArgumentMultimap argMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argMultimap.getValue(prefix).isPresent());
     }
-
-    /*private static boolean isPricePresent(ArgumentMultimap argumentMultimap, Prefix price) {
-        return argumentMultimap.getValue(price);
-    }*/
 }
