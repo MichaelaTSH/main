@@ -14,6 +14,7 @@ import seedu.address.transaction.model.Transaction;
 public class TransactionList {
     private final ArrayList<Transaction> original;
     private ArrayList<Transaction> tArrList;
+    private boolean isModifiable;
     //private ObservableList<Transaction> tList;
 
     /**
@@ -22,6 +23,7 @@ public class TransactionList {
     public TransactionList() {
         this.tArrList = new ArrayList<>();
         this.original = new ArrayList<>();
+        this.isModifiable = true;
         //this.tList = FXCollections.observableList(tArrList);
     }
 
@@ -32,20 +34,21 @@ public class TransactionList {
     public TransactionList(ArrayList<Transaction> tArrList) {
         this.tArrList = tArrList;
         this.original = new ArrayList<>(tArrList);
+        this.isModifiable = true;
         //this.tList = FXCollections.observableList(this.tArrList);
     }
 
-    public ArrayList<Transaction> gettArrList() {
+    public void setAsUnmodifiable() {
+        isModifiable = false;
+    }
+
+    public ArrayList<Transaction> getTarrList() {
         return tArrList;
     }
 
     public ArrayList<Transaction> getOriginal() {
         return original;
     }
-
-    /*public ObservableList<Transaction> gettList() {
-        return tList;
-    }*/
 
     /**
      * Returns the transaction of given index.
@@ -65,19 +68,30 @@ public class TransactionList {
      * Adds transaction to the transaction list.
      * @param transaction Transaction to be added.
      */
-    public void add(Transaction transaction) {
-        tArrList.add(transaction);
-        original.add(transaction);
+    public void add(Transaction transaction) throws UnsupportedOperationException, NullPointerException {
+        if (transaction == null) {
+            throw new NullPointerException();
+        }
+        if (isModifiable) {
+            tArrList.add(transaction);
+            original.add(transaction);
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
      * Deletes transaction at the given index.
      * @param index Index of transaction to be deleted.
      */
-    public void delete(int index) {
-        Transaction transaction = tArrList.get(index);
-        tArrList.remove(index);
-        original.remove(transaction);
+    public void delete(int index) throws UnsupportedOperationException {
+        if (isModifiable) {
+            Transaction transaction = tArrList.get(index);
+            tArrList.remove(index);
+            original.remove(transaction);
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -93,11 +107,18 @@ public class TransactionList {
      * @param index Index to replace.
      * @param transaction Transaction to replace current transaction at specified index.
      */
-    public void set(int index, Transaction transaction) {
-        Transaction trans = tArrList.get(index);
-        tArrList.set(index, transaction);
-        int id = original.indexOf(trans);
-        original.set(id, transaction);
+    public void set(int index, Transaction transaction) throws UnsupportedOperationException, NullPointerException {
+        if (transaction == null) {
+            throw new NullPointerException();
+        }
+        if (isModifiable) {
+            Transaction trans = tArrList.get(index);
+            tArrList.set(index, transaction);
+            int id = original.indexOf(trans);
+            original.set(id, transaction);
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -141,7 +162,7 @@ public class TransactionList {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof TransactionList // instanceof handles nulls
-                && tArrList.equals(((TransactionList) other).gettArrList())
+                && tArrList.equals(((TransactionList) other).getTarrList())
                 && original.equals(((TransactionList) other).getOriginal()));
         //&& tList.equals(((TransactionList) other).gettList()));
     }

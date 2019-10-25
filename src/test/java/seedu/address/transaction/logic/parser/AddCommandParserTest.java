@@ -1,10 +1,8 @@
-package seedu.address.transaction.logic;
+package seedu.address.transaction.logic.parser;
 
 import static seedu.address.testutil.TransactionBuilder.DEFAULT_CATEGORY;
 import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-import static seedu.address.transaction.logic.CommandParserTestUtil.assertCommandParseWithPersonModelFailure;
-import static seedu.address.transaction.logic.CommandParserTestUtil.assertCommandParseWithPersonModelSuccess;
 import static seedu.address.transaction.logic.commands.CommandTestUtil.DESC_AMOUNT;
 import static seedu.address.transaction.logic.commands.CommandTestUtil.DESC_BUILDER_AMOUNT;
 import static seedu.address.transaction.logic.commands.CommandTestUtil.DESC_BUILDER_CATEGORY;
@@ -27,6 +25,8 @@ import static seedu.address.transaction.logic.commands.CommandTestUtil.VALID_CAT
 import static seedu.address.transaction.logic.commands.CommandTestUtil.VALID_DATE;
 import static seedu.address.transaction.logic.commands.CommandTestUtil.VALID_DESC;
 import static seedu.address.transaction.logic.commands.CommandTestUtil.VALID_NAME_ALICE;
+import static seedu.address.transaction.logic.parser.CommandParserTestUtil.assertCommandParseWithPersonModelFailure;
+import static seedu.address.transaction.logic.parser.CommandParserTestUtil.assertCommandParseWithPersonModelSuccess;
 
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +38,6 @@ import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TransactionBuilder;
 import seedu.address.testutil.TypicalPersons;
 import seedu.address.transaction.logic.commands.AddCommand;
-import seedu.address.transaction.logic.parser.AddCommandParser;
 import seedu.address.transaction.model.Transaction;
 import seedu.address.transaction.ui.TransactionMessages;
 
@@ -61,23 +60,25 @@ class AddCommandParserTest {
         assertCommandParseWithPersonModelSuccess(parser, DESC_NAME_BENSEN + DESC_BUILDER_DATE + DESC_BUILDER_DESC
                 + DESC_BUILDER_CATEGORY + DESC_BUILDER_AMOUNT, new AddCommand(expectedTransaction2), personModel);
 
-        // multiple phones - last description accepted
+        // multiple description - last description accepted
         assertCommandParseWithPersonModelSuccess(parser, DESC_NAME_ALICE + DESC_DESC + DESC_BUILDER_DESC
                         + DESC_BUILDER_AMOUNT + DESC_BUILDER_CATEGORY + DESC_BUILDER_DATE,
                 new AddCommand(expectedTransaction), personModel);
 
-        // multiple emails - last category accepted
-        assertCommandParseWithPersonModelSuccess(parser, DESC_NAME_ALICE + DESC_CATEGORY + DESC_BUILDER_CATEGORY
+        // multiple category - last category accepted
+        assertCommandParseWithPersonModelSuccess(parser, DESC_NAME_ALICE + DESC_CATEGORY
+                        + DESC_BUILDER_CATEGORY
                         + DESC_BUILDER_DESC + DESC_BUILDER_DATE + DESC_BUILDER_AMOUNT,
                 new AddCommand(expectedTransaction), personModel);
 
-        // multiple addresses - last amount accepted
+        // multiple amount - last amount accepted
         assertCommandParseWithPersonModelSuccess(parser, DESC_NAME_ALICE + DESC_AMOUNT + DESC_BUILDER_AMOUNT
                         + DESC_BUILDER_DESC + DESC_BUILDER_CATEGORY + DESC_BUILDER_DATE,
                 new AddCommand(expectedTransaction), personModel);
 
-        // multiple addresses - last date accepted
-        assertCommandParseWithPersonModelSuccess(parser, DESC_NAME_ALICE + DESC_BUILDER_AMOUNT + DESC_BUILDER_DESC
+        // multiple date - last date accepted
+        assertCommandParseWithPersonModelSuccess(parser, DESC_NAME_ALICE + DESC_BUILDER_AMOUNT
+                        + DESC_BUILDER_DESC
                         + DESC_BUILDER_CATEGORY + DESC_DATE + DESC_BUILDER_DATE , new AddCommand(expectedTransaction),
                 personModel);
     }
@@ -86,7 +87,8 @@ class AddCommandParserTest {
     public void parse_personNotInAddressBook_failure() {
         //person not found in addressbook
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
-        assertCommandParseWithPersonModelFailure(parser, DESC_NAME_AMY + DESC_BUILDER_AMOUNT + DESC_BUILDER_DESC
+        assertCommandParseWithPersonModelFailure(parser, DESC_NAME_AMY + DESC_BUILDER_AMOUNT
+                + DESC_BUILDER_DESC
                 + DESC_BUILDER_CATEGORY + DESC_BUILDER_DATE, TransactionMessages.MESSAGE_NO_SUCH_PERSON, personModel);
     }
 

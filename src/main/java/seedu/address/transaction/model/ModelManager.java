@@ -29,7 +29,15 @@ public class ModelManager implements Model {
             actualList.add(transactionList.get(i));
         }
         this.filteredList = new TransactionList(actualList);
-        //this.filteredList = new TransactionList(transactionList.gettArrList());
+        this.filteredList.setAsUnmodifiable();
+        //this.filteredList = new TransactionList(transactionList.getTarrList());
+        this.predicate = transaction -> true;
+    }
+
+    public ModelManager() {
+        this.transactionList = new TransactionList();
+        this.filteredList = new TransactionList();
+        this.filteredList.setAsUnmodifiable();
         this.predicate = transaction -> true;
     }
 
@@ -145,6 +153,7 @@ public class ModelManager implements Model {
         List<Transaction> list = this.transactionList.stream().filter(predicate).collect(Collectors.toList());
         ArrayList<Transaction> arrayList = new ArrayList<>(list);
         this.filteredList = new TransactionList(arrayList);
+        this.filteredList.setAsUnmodifiable();
         return filteredList;
     }
 
