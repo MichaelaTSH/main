@@ -12,9 +12,11 @@ import seedu.address.inventory.util.InventoryList;
 import seedu.address.testutil.TypicalItem;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class DeleteCommandTest {
+    private ModelManager model =
+            new ModelManager(new InventoryList(TypicalItem.getTypicalInventoryList().getiArrayList()));
+
 
     @Test
     void execute_nonEmptyInventoryList_successful() throws NoSuchIndexException {
@@ -23,7 +25,7 @@ public class DeleteCommandTest {
         InventoryList inventoryList = new InventoryList(TypicalItem.getTypicalInventoryList().getiArrayList());
         ModelManager expectedModel = new ModelManager(inventoryList);
         expectedModel.deleteItem(Integer.parseInt(TypicalItem.BLACK_SHIRT.getId()));
-        assertCommandSuccess(deleteCommand, message, expectedModel);
+        assertCommandSuccess(deleteCommand, message, expectedModel, model);
     }
 
     @Test
@@ -33,16 +35,5 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = new DeleteCommand(7);
         CommandResult commandResult = deleteCommand.execute(expectedModel);
         assertEquals(InventoryMessages.NO_SUCH_INDEX_INVENTORY, commandResult.getFeedbackToUser());
-    }
-
-    @Test
-    void execute_noTransactionOfPersonSpecifiedFilteredListButInTransactionList_successful() {
-        showTransactionsOfPerson(model, TypicalPersons.ALICE.getName().toString());
-        DeleteNameCommand deleteNameCommand = new DeleteNameCommand(TypicalPersons.BENSON);
-        String message = String.format(String.format(MESSAGE_DELETE_BY_PERSON, TypicalPersons.BENSON));
-        ModelManager expectedModel = new ModelManager(TypicalTransactions.getTypicalTransactionList());
-        showTransactionsOfPerson(expectedModel, TypicalPersons.ALICE.getName().toString());
-        expectedModel.deleteAllTransactionOfPerson(TypicalPersons.BENSON);
-        assertCommandSuccess(deleteNameCommand, model, message, expectedModel, personModel);
     }
 }

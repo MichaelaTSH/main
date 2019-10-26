@@ -48,7 +48,6 @@ public class InventoryModelStubAcceptingItemAdded extends InventoryModelStub {
     public InventoryList getInventoryList() {
         return new InventoryList(itemsAdded);
     }
-
 }
 
 

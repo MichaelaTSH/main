@@ -13,7 +13,7 @@ public class CommandTestUtil {
      * matches {@code expectedCommandResult} <br>
      * - the {@code expectedModel} matches {@code inventoryModel}
      */
-    public static void assertCommandSuccess(Command command, CommandResult expectedCommandResult,
+    public static void assertCommandSuccess(Command command, String expectedCommandResult,
                                             Model expectedModel, Model inventoryModel) {
         try {
             CommandResult result = command.execute(inventoryModel);
